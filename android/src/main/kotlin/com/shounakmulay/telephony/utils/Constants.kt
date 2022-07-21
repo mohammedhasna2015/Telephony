@@ -20,6 +20,7 @@ object Constants {
   val PHONE_PERMISSIONS = listOf(Manifest.permission.READ_PHONE_STATE, Manifest.permission.CALL_PHONE)
   val SERVICE_STATE_PERMISSIONS = listOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.READ_PHONE_STATE)
 
+
   // Request Codes
   const val SMS_QUERY_REQUEST_CODE = 1
   const val SMS_SEND_REQUEST_CODE = 2

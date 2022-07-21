@@ -222,7 +222,7 @@ class SmsController(private val context: Context) {
     }
 
     fun getSimOperatorName(): String {
-       return  getTelephonyManager().simSerialNumber
+       return  getTelephonyManager().simSerialNumber.toString()
     }
     fun getSimState(): Int {
         return getTelephonyManager().simState

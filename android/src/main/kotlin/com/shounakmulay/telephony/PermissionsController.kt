@@ -8,6 +8,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import com.shounakmulay.telephony.utils.Constants.PHONE_PERMISSIONS
+import com.shounakmulay.telephony.utils.Constants.SERVICE_PRIVATE_STATE_PERMISSIONS
 import com.shounakmulay.telephony.utils.Constants.SERVICE_STATE_PERMISSIONS
 import com.shounakmulay.telephony.utils.Constants.SMS_PERMISSIONS
 
@@ -49,7 +50,10 @@ class PermissionsController(private val context: Context) {
     val permissions = getListedPermissions()
     return permissions.filter { permission -> SERVICE_STATE_PERMISSIONS.contains(permission) }
   }
-
+  fun getServicePrivateStatePermissions(): List<String> {
+    val permissions = getListedPermissions()
+    return permissions.filter { permission -> SERVICE_PRIVATE_STATE_PERMISSIONS.contains(permission) }
+  }
   private fun getListedPermissions(): Array<out String> {
       context.apply {
         val info = packageManager.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS)
