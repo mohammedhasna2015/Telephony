@@ -255,14 +255,10 @@ class SmsController(private val context: Context) {
 
     fun getSlotIndex(): Int {
         var slot=0
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 var slotIndex =   SubscriptionManager.getSlotIndex(getTelephonyManager().subscriptionId)
-                if (slotIndex == SubscriptionManager.INVALID_SIM_SLOT_INDEX) {
                      slot= slotIndex
-                }
             }
-        }
         return slot
     }
     private fun getTelephonyManager(): TelephonyManager {
