@@ -222,14 +222,8 @@ class SmsController(private val context: Context) {
     }
 
     fun getSimOperatorName(): String {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            "test:"+getSlotIndex().toString()
-        } else {
-            "UNkNOWN"
-        }
+       return  getTelephonyManager().simSerialNumber
     }
-
-
     fun getSimState(): Int {
         return getTelephonyManager().simState
     }
@@ -253,14 +247,6 @@ class SmsController(private val context: Context) {
         }
     }
 
-    fun getSlotIndex(): Int {
-        var slot=0
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                var slotIndex =   SubscriptionManager.getSlotIndex(getTelephonyManager().subscriptionId)
-                     slot= slotIndex
-            }
-        return slot
-    }
     private fun getTelephonyManager(): TelephonyManager {
         val subscriptionId = SmsManager.getDefaultSmsSubscriptionId()
         val telephonyManager =
