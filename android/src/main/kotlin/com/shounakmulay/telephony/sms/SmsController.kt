@@ -226,8 +226,13 @@ class SmsController(private val context: Context) {
     }
 
     fun getSimOperatorName(): String {
-        return getTelephonyManager().simOperatorName
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            getTelephonyManager().simCarrierId.toString()
+        } else {
+            "UNkNOWN"
+        }
     }
+
 
     fun getSimState(): Int {
         return getTelephonyManager().simState
