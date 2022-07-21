@@ -1,18 +1,15 @@
 package com.shounakmulay.telephony.sms
 
 import android.Manifest
-import android.Manifest.permission.READ_PHONE_STATE
 import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.telephony.*
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
-import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
 import com.shounakmulay.telephony.utils.Constants.ACTION_SMS_DELIVERED
 import com.shounakmulay.telephony.utils.Constants.ACTION_SMS_SENT
@@ -21,7 +18,6 @@ import com.shounakmulay.telephony.utils.Constants.SMS_DELIVERED_BROADCAST_REQUES
 import com.shounakmulay.telephony.utils.Constants.SMS_SENT_BROADCAST_REQUEST_CODE
 import com.shounakmulay.telephony.utils.Constants.SMS_TO
 import com.shounakmulay.telephony.utils.ContentUri
-import java.lang.RuntimeException
 
 
 class SmsController(private val context: Context) {
@@ -227,8 +223,7 @@ class SmsController(private val context: Context) {
 
     fun getSimOperatorName(): String {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            "test:"+getTelephonyManager().simCarrierIdName.toString()+":"+getTelephonyManager()
-                .simCountryIso.toString()
+            "test:"+getSlotIndex().toString()
         } else {
             "UNkNOWN"
         }
@@ -258,6 +253,18 @@ class SmsController(private val context: Context) {
         }
     }
 
+    fun getSlotIndex(): Int {
+        var slot=0
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                var slotIndex =   SubscriptionManager.getSlotIndex(getTelephonyManager().subscriptionId)
+                if (slotIndex == SubscriptionManager.INVALID_SIM_SLOT_INDEX) {
+                     slot= slotIndex
+                }
+            }
+        }
+        return slot
+    }
     private fun getTelephonyManager(): TelephonyManager {
         val subscriptionId = SmsManager.getDefaultSmsSubscriptionId()
         val telephonyManager =
