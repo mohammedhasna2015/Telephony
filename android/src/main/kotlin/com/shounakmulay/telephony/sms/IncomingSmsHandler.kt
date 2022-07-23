@@ -115,15 +115,15 @@ class IncomingSmsReceiver : BroadcastReceiver() {
 
         when (slot) {
             0 -> {
-                Toast.makeText(context, "sim1", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(context, "sim1", Toast.LENGTH_SHORT).show()
                 preferences.edit().putString("SimIndex","sim1").apply()
             }
             1 -> {
-                Toast.makeText(context, "sim2", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(context, "sim2", Toast.LENGTH_SHORT).show()
                 preferences.edit().putString("SimIndex","sim2").apply()
             }
             else -> {
-                Toast.makeText(context, "undetected", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(context, "undetected", Toast.LENGTH_SHORT).show()
                 preferences.edit().putString("SimIndex","unKnown").apply()
             }
         }
