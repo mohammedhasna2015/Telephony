@@ -12,6 +12,7 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import androidx.core.content.ContextCompat.getSystemService
+import com.shounakmulay.telephony.utils.Constants
 import com.shounakmulay.telephony.utils.Constants.ACTION_SMS_DELIVERED
 import com.shounakmulay.telephony.utils.Constants.ACTION_SMS_SENT
 import com.shounakmulay.telephony.utils.Constants.SMS_BODY
@@ -223,7 +224,7 @@ class SmsController(private val context: Context) {
     }
 
     fun getSimOperatorName(): String {
-       return  getSlotIndex().toString()
+       return  getSimName().toString()
     }
     fun getSimState(): Int {
         return getTelephonyManager().simState
@@ -261,18 +262,13 @@ class SmsController(private val context: Context) {
     }
 
 
-    @RequiresApi(Build.VERSION_CODES.R)
-    fun getSlotIndex(): Int {
-        var slotIndex=5
-         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-             slotIndex = SubscriptionManager.getSlotIndex(getTelephonyManager().subscriptionId)
-             Log.d("getSlotIndex", "getSlotIndex: "+slotIndex)
-         } else {
-             slotIndex = -1
-             Log.d("getSlotIndex", "getSlotIndex:-1 ")
-        }
-        return slotIndex
-    }
+    private  fun getSimName():String?{
+       var simName:String?
+        val preferences =
+            context.getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
+        simName=preferences.getString("SimIndex","unKnown")
+        return  simName
 
+    }
 
 }
