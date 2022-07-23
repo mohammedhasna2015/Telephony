@@ -254,17 +254,18 @@ class SmsController(private val context: Context) {
             context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             telephonyManager.createForSubscriptionId(subscriptionId)
+            telephonyManager
         } else {
             telephonyManager
         }
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.R)
     fun getSlotIndex(): Int {
         var slotIndex=5
-        val subscriptionId = SmsManager.getDefaultSmsSubscriptionId()
          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-             slotIndex = SubscriptionManager.getSlotIndex(subscriptionId)
+             slotIndex = SubscriptionManager.getSlotIndex(getTelephonyManager().subscriptionId)
              Log.d("getSlotIndex", "getSlotIndex: "+slotIndex)
          } else {
              slotIndex = -1
@@ -272,4 +273,6 @@ class SmsController(private val context: Context) {
         }
         return slotIndex
     }
+
+
 }
