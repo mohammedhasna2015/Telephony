@@ -8,6 +8,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.telephony.*
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import androidx.core.content.ContextCompat.getSystemService
@@ -260,12 +261,14 @@ class SmsController(private val context: Context) {
 
 
     fun getSlotIndex(): Int {
-        var slotIndex=0
+        var slotIndex=5
         val subscriptionId = SmsManager.getDefaultSmsSubscriptionId()
-        slotIndex = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            SubscriptionManager.getSlotIndex(subscriptionId)
-        } else {
-            -1
+         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+             slotIndex = SubscriptionManager.getSlotIndex(subscriptionId)
+             Log.d("getSlotIndex", "getSlotIndex: "+slotIndex)
+         } else {
+             slotIndex = -1
+             Log.d("getSlotIndex", "getSlotIndex:-1 ")
         }
         return slotIndex
     }
