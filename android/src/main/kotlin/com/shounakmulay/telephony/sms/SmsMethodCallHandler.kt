@@ -8,6 +8,10 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Build
+import android.os.Bundle
+import android.telephony.SubscriptionManager
+import android.util.Log
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.shounakmulay.telephony.PermissionsController
 import com.shounakmulay.telephony.utils.ActionType
@@ -44,6 +48,7 @@ import com.shounakmulay.telephony.utils.SmsAction
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.PluginRegistry
+import java.util.*
 
 
 class SmsMethodCallHandler(
@@ -388,9 +393,10 @@ class SmsMethodCallHandler(
   }
 
   override fun onReceive(ctx: Context?, intent: Intent?) {
+
     if (intent != null) {
       when (intent.action) {
-        Constants.ACTION_SMS_SENT -> foregroundChannel.invokeMethod(SMS_SENT, null)
+      Constants.ACTION_SMS_SENT -> foregroundChannel.invokeMethod(SMS_SENT, null)
         Constants.ACTION_SMS_DELIVERED -> {
           foregroundChannel.invokeMethod(SMS_DELIVERED, null)
           context.unregisterReceiver(this)
@@ -398,4 +404,5 @@ class SmsMethodCallHandler(
       }
     }
   }
+
 }
